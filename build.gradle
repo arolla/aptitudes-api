@@ -26,5 +26,4 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Required for Kotlin integration
     compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
-    testCompile group: 'io.kotlintest', name: 'kotlintest', version: '2.0.7'
 }
