@@ -2,9 +2,7 @@ package arolla.skillz
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class SkillzController {
@@ -14,14 +12,17 @@ class SkillzController {
     )
 
     @GetMapping("/employees")
-    fun employees():Collection<Employee> = employees
+    fun employees(): Collection<Employee> = employees
 
     @GetMapping("/employees/{name}")
-    fun employee(@PathVariable name:String):ResponseEntity<Employee> {
+    fun employee(@PathVariable name: String): ResponseEntity<Employee> {
         val employee = employees.firstOrNull { it.name == name }
         return if (employee == null)
             ResponseEntity(HttpStatus.NOT_FOUND)
         else
             ResponseEntity(employee, HttpStatus.OK)
     }
+
+    @PostMapping("/employees")
+    fun createEmployee(@RequestBody employee: Employee) = employee
 }
