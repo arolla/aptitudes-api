@@ -5,18 +5,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class SkillzController {
-    private val employees = listOf(
-            Employee("Laurel", listOf(Skill("Falling"), Skill("Jumping"))),
-            Employee("Hardy", listOf(Skill("Hitting")))
-    )
-
+class SkillzController(private val service: SkillzService) {
     @GetMapping("/employees")
-    fun employees(): Collection<Employee> = employees
+    fun employees(): Collection<Employee> = service.employees
 
     @GetMapping("/employees/{name}")
     fun employee(@PathVariable name: String): ResponseEntity<Employee> {
-        val employee = employees.firstOrNull { it.name == name }
+        val employee = service.employee(name)
         return if (employee == null)
             ResponseEntity(HttpStatus.NOT_FOUND)
         else
@@ -24,5 +19,5 @@ class SkillzController {
     }
 
     @PostMapping("/employees")
-    fun createEmployee(@RequestBody employee: Employee) = employee
+    fun createEmployee(@RequestBody employee: Employee): ResponseEntity<Employee> = ResponseEntity(employee, HttpStatus.OK)
 }
