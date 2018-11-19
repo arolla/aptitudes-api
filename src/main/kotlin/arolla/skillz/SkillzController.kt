@@ -19,5 +19,5 @@ class SkillzController(private val service: SkillzService) {
     }
 
     @PostMapping("/employees")
-    fun createEmployee(@RequestBody employee: Employee): ResponseEntity<Employee> = ResponseEntity(employee, HttpStatus.OK)
+    fun createEmployee(@RequestBody employee: Employee): ResponseEntity<Employee> = ResponseEntity(service.createEmployee(employee), HttpStatus.OK)
 }
