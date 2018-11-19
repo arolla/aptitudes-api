@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class SkillzControllerTest {
@@ -19,6 +19,15 @@ class SkillzControllerTest {
         restController = MockMvcBuilders
                 .standaloneSetup(skillzController)
                 .build()
+    }
+
+    @Test
+    internal fun `returns requested employee`() {
+        every { skillzService.employee("johnny") } returns Employee("johnny", listOf(Skill("singing")))
+        restController
+                .perform(get("/employees/johnny"))
+                .andExpect(status().isOk)
+                .andExpect(content().json("""{name: "johnny", skills: [{name="singing"}]}"""))
     }
 
     @Test
