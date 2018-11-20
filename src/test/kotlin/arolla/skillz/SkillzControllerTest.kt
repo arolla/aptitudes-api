@@ -25,12 +25,12 @@ class SkillzControllerTest {
     @Nested
     inner class `get employee` {
         @Test
-        internal fun `returns requested employee`() {
-            every { skillzService.employee("johnny") } returns Employee("johnny", listOf(Skill("singing")))
+        fun `returns requested employee`() {
+            every { skillzService.employee("johnny") } returns Employee("johnny", listOf(Skill("singing", 3)))
             restController
                     .perform(get("/employees/johnny"))
                     .andExpect(status().isOk)
-                    .andExpect(content().json("""{name: "johnny", skills: [{name="singing"}]}"""))
+                    .andExpect(content().json("""{name: "johnny", skills: [{name: "singing", level: 3}]}"""))
         }
 
         @Test

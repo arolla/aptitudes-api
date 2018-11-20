@@ -14,7 +14,7 @@ class SkillzServiceTest {
 
     @Test
     fun `adds employee`() {
-        val yoda = Employee("yoda", listOf(Skill("inversion")))
+        val yoda = Employee("yoda", listOf(Skill("inversion", 3)))
         skillz.createEmployee(yoda)
         assertThat(skillz.employees).contains(yoda)
     }
