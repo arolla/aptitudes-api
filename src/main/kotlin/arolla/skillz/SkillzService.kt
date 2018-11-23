@@ -4,10 +4,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SkillzService {
-    val _employees = mutableListOf(
-            Employee("Laurel", listOf(Skill("Falling", 2), Skill("Jumping", 1))),
-            Employee("Hardy", listOf(Skill("Hitting", 3)))
-    )
+    val _employees = mutableListOf<Employee>()
+
     val employees: List<Employee>
         get() = _employees.toList()
 
@@ -17,4 +15,9 @@ class SkillzService {
         _employees.add(employee)
         return employee
     }
+
+    val skills: List<String>
+        get() = _employees.flatMap { it.skills }
+                .map { it.name }
+                .distinctBy { it.toLowerCase() }
 }
