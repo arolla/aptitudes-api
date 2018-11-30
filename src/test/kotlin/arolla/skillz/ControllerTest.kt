@@ -10,13 +10,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-class SkillzControllerTest {
+class ControllerTest {
     private lateinit var restController: MockMvc
-    private val skillzService = mockk<SkillzService>()
+    private val skillzService = mockk<Service>()
 
     @BeforeEach
     fun `set up`() {
-        val skillzController = SkillzController(skillzService)
+        val skillzController = Controller(skillzService)
         restController = MockMvcBuilders
                 .standaloneSetup(skillzController)
                 .build()

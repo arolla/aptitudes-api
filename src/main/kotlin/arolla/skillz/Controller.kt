@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import javax.annotation.PostConstruct
 
 @RestController
-class SkillzController(private val service: SkillzService) {
+class Controller(private val service: Service) {
     @PostConstruct
     fun init() {
         service.createEmployee(Employee("Laurel", listOf(Skill("Falling", 2), Skill("Jumping", 1))))

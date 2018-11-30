@@ -3,7 +3,7 @@ package arolla.skillz
 import org.springframework.stereotype.Service
 
 @Service
-class SkillzService {
+class Service {
     val _employees = mutableListOf<Employee>()
 
     val employees: List<Employee>

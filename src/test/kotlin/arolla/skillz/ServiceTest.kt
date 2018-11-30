@@ -4,12 +4,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class SkillzServiceTest {
-    private lateinit var skillz: SkillzService
+class ServiceTest {
+    private lateinit var skillz: Service
 
     @BeforeEach
     internal fun setUp() {
-        skillz = SkillzService()
+        skillz = Service()
     }
 
     @Test
