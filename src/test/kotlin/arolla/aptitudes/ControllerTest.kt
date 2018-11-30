@@ -1,4 +1,4 @@
-package arolla.skillz
+package arolla.aptitudes
 
 import io.mockk.every
 import io.mockk.mockk

@@ -1,4 +1,4 @@
-package arolla.skillz
+package arolla.aptitudes
 
 import org.springframework.stereotype.Service
 
