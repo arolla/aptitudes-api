@@ -4,7 +4,7 @@ I'm a skills matrix, intended to manage people skills: what they can do, what th
 
 # TODO
 
-## Skillz 101
+## Aptitudes 101
 
 - CRUD people.
 - On ppl, tell how strong they are on skills (to CRUD), and what skills they wanna work on.

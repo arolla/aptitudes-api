@@ -11,14 +11,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class ControllerTest {
-    private lateinit var restController: MockMvc
-    private val skillzService = mockk<Service>()
+    private lateinit var api: MockMvc
+    private val service = mockk<Service>()
 
     @BeforeEach
     fun `set up`() {
-        val skillzController = Controller(skillzService)
-        restController = MockMvcBuilders
-                .standaloneSetup(skillzController)
+        val controller = Controller(service)
+        api = MockMvcBuilders
+                .standaloneSetup(controller)
                 .build()
     }
 
@@ -26,8 +26,8 @@ class ControllerTest {
     inner class `get employee` {
         @Test
         fun `returns requested employee`() {
-            every { skillzService.employee("johnny") } returns Employee("johnny", listOf(Skill("singing", 3)))
-            restController
+            every { service.employee("johnny") } returns Employee("johnny", listOf(Skill("singing", 3)))
+            api
                     .perform(get("/employees/johnny"))
                     .andExpect(status().isOk)
                     .andExpect(content().json("""{name: "johnny", skills: [{name: "singing", level: 3}]}"""))
@@ -35,8 +35,8 @@ class ControllerTest {
 
         @Test
         fun `returns 404 when employee doesn't exist`() {
-            every { skillzService.employee("noone") } returns null
-            restController
+            every { service.employee("noone") } returns null
+            api
                     .perform(get("/employees/noone"))
                     .andExpect(status().isNotFound)
         }
