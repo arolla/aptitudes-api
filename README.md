@@ -6,7 +6,7 @@ I'm a skills matrix, intended to manage people skills: what they can do, what th
 
 ## Aptitudes 101
 
-- CRUD people.
+- CRUD employees.
 - On ppl, tell how strong they are on skills (to CRUD), and what skills they wanna work on.
 - Search ppl from skills.
 - Warning: at one point, we will want to be able to browse history.
@@ -15,7 +15,6 @@ I'm a skills matrix, intended to manage people skills: what they can do, what th
 
 In any order:
 
-- Suggest skills. They might be linked together, directly or through labels, or suggested from usage, or...
 - Attach resume and presentation.
 - Browse people history.
 - Log in.

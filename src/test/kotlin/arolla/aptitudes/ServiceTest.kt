@@ -1,15 +1,17 @@
 package arolla.aptitudes
 
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ServiceTest {
     private lateinit var aptitudes: Service
+    private val repository = mockk<Repository>(relaxed = true)
 
     @BeforeEach
     internal fun setUp() {
-        aptitudes = Service()
+        aptitudes = Service(repository)
     }
 
     @Test
