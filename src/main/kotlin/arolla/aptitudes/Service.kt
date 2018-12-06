@@ -12,7 +12,7 @@ class Service(private val repository: Repository) {
     fun employee(name: String): Employee? = _employees.firstOrNull { it.name == name }
 
     fun createEmployee(employee: Employee): Employee {
-        repository.createEmployee(employee)
+        repository.create(employee)
         _employees.add(employee)
         return employee
     }
