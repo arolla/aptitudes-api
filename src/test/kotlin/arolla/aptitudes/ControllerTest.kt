@@ -1,7 +1,7 @@
 package arolla.aptitudes
 
-import io.mockk.every
-import io.mockk.mockk
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class ControllerTest {
     private lateinit var api: MockMvc
-    private val service = mockk<Service>()
+    private val service:Service = mock()
 
     @BeforeEach
     fun `set up`() {
@@ -26,7 +26,8 @@ class ControllerTest {
     inner class `get employee` {
         @Test
         fun `returns requested employee`() {
-            every { service.employee("johnny") } returns Employee("johnny", listOf(Skill("singing", 3)))
+            whenever(service.employee("johnny"))
+                    .thenReturn(Employee("johnny", listOf(Skill("singing", 3))))
             api
                     .perform(get("/employees/johnny"))
                     .andExpect(status().isOk)
@@ -35,7 +36,7 @@ class ControllerTest {
 
         @Test
         fun `returns 404 when employee doesn't exist`() {
-            every { service.employee("noone") } returns null
+            whenever(service.employee("noone")).thenReturn(null)
             api
                     .perform(get("/employees/noone"))
                     .andExpect(status().isNotFound)

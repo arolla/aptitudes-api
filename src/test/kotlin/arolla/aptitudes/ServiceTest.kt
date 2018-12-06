@@ -1,13 +1,13 @@
 package arolla.aptitudes
 
-import io.mockk.mockk
+import com.nhaarman.mockito_kotlin.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ServiceTest {
     private lateinit var aptitudes: Service
-    private val repository = mockk<Repository>(relaxed = true)
+    private val repository:Repository = mock()
 
     @BeforeEach
     internal fun setUp() {

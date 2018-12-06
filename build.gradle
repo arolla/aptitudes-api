@@ -31,7 +31,6 @@ dependencies {
     compile group: 'com.squareup.moshi', name: 'moshi-kotlin', version: '1.8.0'
     testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.3.1'
-    testCompile group: 'io.mockk', name: 'mockk', version: '1.8.13'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
     testCompile group: 'com.nhaarman', name: 'mockito-kotlin', version: '1.6.0'
 }
