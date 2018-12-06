@@ -19,7 +19,7 @@ class Repository(private val eventDAO: EventDAO) {
     val employees: Collection<Employee>
         get() = eventDAO.findAll()
                 .map { it.body }
-                .map { employeeCodec.fromJson(it)!! }
+                .map { employeeCodec.fromJson(it!!)!! }
 
     fun create(employee: Employee) {
         val event = Event(body = employeeCodec.toJson(employee))
@@ -35,5 +35,5 @@ data class Event(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Int? = null,
-        val body: String
+        val body: String? = null
 )
