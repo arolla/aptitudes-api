@@ -2,11 +2,13 @@ package arolla.aptitudes
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Type
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Repository
@@ -77,8 +79,10 @@ enum class EventType(val type: String) {
 @Entity
 data class Event(
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Int? = null,
+        @GenericGenerator(name = "uuid", strategy = "uuid2")
+        @GeneratedValue(generator = "uuid")
+        @Type(type="pg-uuid")
+        val id: UUID? = null,
         val type: String? = null,
         val body: String? = null
 )
