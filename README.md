@@ -19,3 +19,8 @@ In any order:
 - Browse people history.
 - Log in.
 - Manage skills: deduplicate...
+
+## next steps
+
+- Cache current state in Repository
+- Enforce uniqueness (employee name, skill name in employee)

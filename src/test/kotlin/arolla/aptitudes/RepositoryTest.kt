@@ -32,7 +32,10 @@ class RepositoryTest {
             |    { "name": "driving", "level": 3 },
             |    { "name": "cachaça", "level": 1}
             |]}""".trimMargin()
-        whenever(eventDAO.findAll()).thenReturn(listOf(Event(body = serializedEmployee)))
+        whenever(eventDAO.findAll()).thenReturn(listOf(Event(
+                type = EventType.EmployeeCreated.type,
+                body = serializedEmployee
+        )))
         assertThat(repository.employees).isEqualTo(listOf(Employee(
                 "Senna",
                 listOf(
@@ -51,6 +54,57 @@ class RepositoryTest {
                         Skill("pastis", 1)
                 )
         ))
-        verify(eventDAO).save(Event(body = """{"name":"Prost","skills":[{"name":"driving","level":3},{"name":"pastis","level":1}]}"""))
+        verify(eventDAO).save(Event(
+                type = EventType.EmployeeCreated.type,
+                body = """{"name":"Prost","skills":[{"name":"driving","level":3},{"name":"pastis","level":1}]}""")
+        )
+    }
+
+    @Test
+    fun `hides deleted employee`() {
+        whenever(eventDAO.findAll()).thenReturn(listOf(
+                Event(
+                        type = EventType.EmployeeCreated.type,
+                        body = """
+                        |{ "name": "Hulk Hogan", "skills": [
+                        |    { "name": "shouting", "level": 3 },
+                        |    { "name": "nimbleness", "level": 1}
+                        |]}""".trimMargin()
+                ),
+                Event(
+                        type = EventType.EmployeeDeleted.type,
+                        body = "Hulk Hogan"
+                )
+        ))
+        assertThat(repository.employees).isEmpty()
+    }
+
+    @Test
+    fun `shows recreated employee`() {
+        val hulk = """
+            |{ "name": "Hulk Hogan", "skills": [
+            |    { "name": "shouting", "level": 3 },
+            |    { "name": "nimbleness", "level": 1}
+            |]}""".trimMargin()
+        whenever(eventDAO.findAll()).thenReturn(listOf(
+                Event(
+                        type = EventType.EmployeeCreated.type,
+                        body = hulk
+                ),
+                Event(
+                        type = EventType.EmployeeDeleted.type,
+                        body = "Hulk Hogan"
+                ),
+                Event(
+                        type = EventType.EmployeeCreated.type,
+                        body = hulk
+                )
+        ))
+        assertThat(repository.employees).containsExactly(
+                Employee("Hulk Hogan", listOf(
+                        Skill("shouting", 3),
+                        Skill("nimbleness", 1)
+                ))
+        )
     }
 }

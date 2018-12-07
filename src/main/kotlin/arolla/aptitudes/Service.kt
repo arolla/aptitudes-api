@@ -9,9 +9,13 @@ class Service(private val repository: Repository) {
 
     fun employee(name: String): Employee? = employees.firstOrNull { it.name == name }
 
-    fun createEmployee(employee: Employee): Employee {
+    fun create(employee: Employee): Employee {
         repository.create(employee)
         return employee
+    }
+
+    fun deleteEmployee(name: String) {
+        repository.deleteEmployee(name)
     }
 
     val skills: List<String>
