@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class ControllerTest {
@@ -27,7 +28,7 @@ class ControllerTest {
         @Test
         fun `returns requested employee`() {
             whenever(service.employee("johnny"))
-                    .thenReturn(Employee("johnny", listOf(Skill("singing", 3))))
+                    .thenReturn(Employee(uuid(), "johnny", listOf(Skill("singing", 3))))
             api
                     .perform(get("/employees/johnny"))
                     .andExpect(status().isOk)

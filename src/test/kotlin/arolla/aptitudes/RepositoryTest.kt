@@ -28,7 +28,7 @@ class RepositoryTest {
     @Test
     fun `deserializes employee`() {
         val serializedEmployee = """
-            |{ "name": "Senna", "skills": [
+            |{ "id": "Ayrton", "name": "Senna", "skills": [
             |    { "name": "driving", "level": 3 },
             |    { "name": "cachaça", "level": 1}
             |]}""".trimMargin()
@@ -37,7 +37,7 @@ class RepositoryTest {
                 body = serializedEmployee
         )))
         assertThat(repository.employees).isEqualTo(listOf(Employee(
-                "Senna",
+                "Ayrton","Senna",
                 listOf(
                         Skill("driving", 3),
                         Skill("cachaça", 1)
@@ -48,7 +48,7 @@ class RepositoryTest {
     @Test
     fun `serializes employee`() {
         repository.create(Employee(
-                "Prost",
+                "Alain", "Prost",
                 listOf(
                         Skill("driving", 3),
                         Skill("pastis", 1)
@@ -56,7 +56,7 @@ class RepositoryTest {
         ))
         verify(eventDAO).save(Event(
                 type = EventType.EmployeeCreated.type,
-                body = """{"name":"Prost","skills":[{"name":"driving","level":3},{"name":"pastis","level":1}]}""")
+                body = """{"id":"Alain","name":"Prost","skills":[{"name":"driving","level":3},{"name":"pastis","level":1}]}""")
         )
     }
 
@@ -66,7 +66,7 @@ class RepositoryTest {
                 Event(
                         type = EventType.EmployeeCreated.type,
                         body = """
-                        |{ "name": "Hulk Hogan", "skills": [
+                        |{ "id": "Hulk", "name": "Hulk Hogan", "skills": [
                         |    { "name": "shouting", "level": 3 },
                         |    { "name": "nimbleness", "level": 1}
                         |]}""".trimMargin()
@@ -82,7 +82,7 @@ class RepositoryTest {
     @Test
     fun `shows recreated employee`() {
         val hulk = """
-            |{ "name": "Hulk Hogan", "skills": [
+            |{ "id": "Hulk", "name": "Hogan", "skills": [
             |    { "name": "shouting", "level": 3 },
             |    { "name": "nimbleness", "level": 1}
             |]}""".trimMargin()
@@ -101,7 +101,7 @@ class RepositoryTest {
                 )
         ))
         assertThat(repository.employees).containsExactly(
-                Employee("Hulk Hogan", listOf(
+                Employee("Hulk", "Hogan", listOf(
                         Skill("shouting", 3),
                         Skill("nimbleness", 1)
                 ))

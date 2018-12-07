@@ -18,7 +18,7 @@ class ServiceTest {
 
     @Test
     fun `adds employee`() {
-        val yoda = Employee("yoda", listOf(Skill("inversion", 3)))
+        val yoda = Employee(uuid(), "yoda", listOf(Skill("inversion", 3)))
         createEmployees(yoda)
         assertThat(aptitudes.employees).containsExactly(yoda)
     }
@@ -26,8 +26,8 @@ class ServiceTest {
     @Test
     fun `aggregates skills`() {
         createEmployees(
-                Employee("Bee Gees", listOf(Skill("dancing", 1))),
-                Employee("Swift", listOf(Skill("shaking", 2)))
+                Employee(uuid(), "Bee Gees", listOf(Skill("dancing", 1))),
+                Employee(uuid(), "Swift", listOf(Skill("shaking", 2)))
         )
         assertThat(aptitudes.skills).containsExactlyInAnyOrder("shaking", "dancing")
     }
@@ -35,8 +35,8 @@ class ServiceTest {
     @Test
     fun `skills removes duplicates`() {
         createEmployees(
-                Employee("Bruce Lee", listOf(Skill("fighting", 3))),
-                Employee("Check Norris", listOf(Skill("fighting", 2)))
+                Employee(uuid(), "Bruce Lee", listOf(Skill("fighting", 3))),
+                Employee(uuid(), "Check Norris", listOf(Skill("fighting", 2)))
         )
         assertThat(aptitudes.skills).containsExactly("fighting")
     }
@@ -44,8 +44,8 @@ class ServiceTest {
     @Test
     fun `skills is not case sensitive`() {
         createEmployees(
-                Employee("Bruce Lee", listOf(Skill("fighting", 3))),
-                Employee("Check Norris", listOf(Skill("FighTing", 2)))
+                Employee(uuid(), "Bruce Lee", listOf(Skill("fighting", 3))),
+                Employee(uuid(), "Check Norris", listOf(Skill("FighTing", 2)))
         )
         assertThat(aptitudes.skills).containsExactly("fighting")
     }

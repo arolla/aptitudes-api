@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct
 class Controller(private val service: Service) {
     @PostConstruct
     fun init() {
-        service.create(Employee("Laurel", listOf(Skill("Falling", 2), Skill("Jumping", 1))))
-        service.create(Employee("Hardy", listOf(Skill("Hitting", 3))))
+        service.create(Employee(uuid(), "Laurel", listOf(Skill("Falling", 2), Skill("Jumping", 1))))
+        service.create(Employee(uuid(), "Hardy", listOf(Skill("Hitting", 3))))
     }
 
     @GetMapping("/employees")
