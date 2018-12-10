@@ -18,7 +18,7 @@ class Repository(private val eventDAO: EventDAO) {
     val employees: Collection<Employee>
         get() = eventDAO.findAll()
                 .map { serializer.deserialize(it) }
-                .groupBy { it.employeeName }
+                .groupBy { it.employeeId }
                 .map { it.value }
                 .filter { it.last() is EmployeeCreated }
                 .map { it.last() }
@@ -29,21 +29,21 @@ class Repository(private val eventDAO: EventDAO) {
         eventDAO.save(serializer.employeeCreated(employee))
     }
 
-    fun deleteEmployee(name: String) {
-        eventDAO.save(serializer.employeeDeleted(name))
+    fun deleteEmployee(id: String) {
+        eventDAO.save(serializer.employeeDeleted(id))
     }
 }
 
 private sealed class DeserializedEvent {
-    abstract val employeeName: String
+    abstract val employeeId: String
 }
 
 private data class EmployeeCreated(val employee: Employee) : DeserializedEvent() {
-    override val employeeName: String
-        get() = employee.name
+    override val employeeId: String
+        get() = employee.id
 }
 
-private data class EmployeeDeleted(override val employeeName: String) : DeserializedEvent()
+private data class EmployeeDeleted(override val employeeId: String) : DeserializedEvent()
 
 private class EventSerializer {
     private val employeeCodec = Moshi.Builder()
@@ -62,9 +62,9 @@ private class EventSerializer {
             body = employeeCodec.toJson(employee)
     )
 
-    fun employeeDeleted(name: String): Event = Event(
+    fun employeeDeleted(id: String): Event = Event(
             type = EventType.EmployeeDeleted.type,
-            body = name
+            body = id
     )
 }
 

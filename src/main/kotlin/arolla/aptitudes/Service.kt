@@ -14,8 +14,8 @@ class Service(private val repository: Repository) {
         return employee
     }
 
-    fun deleteEmployee(name: String) {
-        repository.deleteEmployee(name)
+    fun deleteEmployee(id: String) {
+        repository.deleteEmployee(id)
     }
 
     val skills: List<String>

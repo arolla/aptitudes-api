@@ -66,14 +66,14 @@ class RepositoryTest {
                 Event(
                         type = EventType.EmployeeCreated.type,
                         body = """
-                        |{ "id": "Hulk", "name": "Hulk Hogan", "skills": [
+                        |{ "id": "Hulk", "name": "Hogan", "skills": [
                         |    { "name": "shouting", "level": 3 },
                         |    { "name": "nimbleness", "level": 1}
                         |]}""".trimMargin()
                 ),
                 Event(
                         type = EventType.EmployeeDeleted.type,
-                        body = "Hulk Hogan"
+                        body = "Hulk"
                 )
         ))
         assertThat(repository.employees).isEmpty()

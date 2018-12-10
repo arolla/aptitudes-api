@@ -16,9 +16,9 @@ class Controller(private val service: Service) {
     @GetMapping("/employees")
     fun employees(): Collection<Employee> = service.employees
 
-    @GetMapping("/employees/{name}")
-    fun employee(@PathVariable name: String): ResponseEntity<Employee> {
-        val employee = service.employee(name)
+    @GetMapping("/employees/{id}")
+    fun employee(@PathVariable id: String): ResponseEntity<Employee> {
+        val employee = service.employee(id)
         return if (employee == null)
             ResponseEntity(HttpStatus.NOT_FOUND)
         else
@@ -31,9 +31,9 @@ class Controller(private val service: Service) {
     @GetMapping("/skills")
     fun skills(): Collection<String> = service.skills
 
-    @DeleteMapping("/employees/{name}")
-    fun deleteEmployee(@PathVariable name: String): ResponseEntity<Unit> {
-        service.deleteEmployee(name)
+    @DeleteMapping("/employees/{id}")
+    fun deleteEmployee(@PathVariable id: String): ResponseEntity<Unit> {
+        service.deleteEmployee(id)
         return ResponseEntity(HttpStatus.OK)
     }
 }
