@@ -14,6 +14,10 @@ class Service(private val repository: Repository) {
         return employee
     }
 
+    fun update(employee: Employee) {
+        repository.update(employee)
+    }
+
     fun deleteEmployee(id: String) {
         repository.deleteEmployee(id)
     }

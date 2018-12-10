@@ -28,12 +28,16 @@ class Controller(private val service: Service) {
     @PostMapping("/employees")
     fun createEmployee(@RequestBody employee: Employee): ResponseEntity<Employee> = ResponseEntity(service.create(employee), HttpStatus.OK)
 
-    @GetMapping("/skills")
-    fun skills(): Collection<String> = service.skills
+    @PutMapping("/employees/{id}")
+    fun updateEmployee(@RequestBody employee: Employee) {
+        service.update(employee)
+    }
 
     @DeleteMapping("/employees/{id}")
-    fun deleteEmployee(@PathVariable id: String): ResponseEntity<Unit> {
+    fun deleteEmployee(@PathVariable id: String) {
         service.deleteEmployee(id)
-        return ResponseEntity(HttpStatus.OK)
     }
+
+    @GetMapping("/skills")
+    fun skills(): Collection<String> = service.skills
 }

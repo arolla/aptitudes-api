@@ -37,7 +37,7 @@ class RepositoryTest {
                 body = serializedEmployee
         )))
         assertThat(repository.employees).isEqualTo(listOf(Employee(
-                "Ayrton","Senna",
+                "Ayrton", "Senna",
                 listOf(
                         Skill("driving", 3),
                         Skill("cachaça", 1)
@@ -106,5 +106,20 @@ class RepositoryTest {
                         Skill("nimbleness", 1)
                 ))
         )
+    }
+
+    @Test
+    fun `update employee`() {
+        whenever(eventDAO.findAll()).thenReturn(listOf(
+                Event(
+                        type = EventType.EmployeeCreated.type,
+                        body = """{"id": "Hulk", "name": "Hogan", "skills": []}"""
+                ),
+                Event(
+                        type = EventType.EmployeeUpdated.type,
+                        body = """{"id": "Hulk", "name": "The Hulk", "skills": []}"""
+                )
+        ))
+        assertThat(repository.employees.map { it.name }).containsExactly("The Hulk")
     }
 }

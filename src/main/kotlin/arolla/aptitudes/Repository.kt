@@ -20,13 +20,17 @@ class Repository(private val eventDAO: EventDAO) {
                 .map { serializer.deserialize(it) }
                 .groupBy { it.employeeId }
                 .map { it.value }
-                .filter { it.last() is EmployeeCreated }
+                .filter { it.last() is EmployeeHolderEvent }
                 .map { it.last() }
-                .map { it as EmployeeCreated }
+                .map { it as EmployeeHolderEvent }
                 .map { it.employee }
 
     fun create(employee: Employee) {
         eventDAO.save(serializer.employeeCreated(employee))
+    }
+
+    fun update(employee: Employee) {
+        eventDAO.save(serializer.employeeUpdated(employee))
     }
 
     fun deleteEmployee(id: String) {
@@ -38,11 +42,13 @@ private sealed class DeserializedEvent {
     abstract val employeeId: String
 }
 
-private data class EmployeeCreated(val employee: Employee) : DeserializedEvent() {
+private open class EmployeeHolderEvent(open val employee: Employee) : DeserializedEvent() {
     override val employeeId: String
         get() = employee.id
 }
 
+private data class EmployeeCreated(override val employee: Employee) : EmployeeHolderEvent(employee)
+private data class EmployeeUpdated(override val employee: Employee) : EmployeeHolderEvent(employee)
 private data class EmployeeDeleted(override val employeeId: String) : DeserializedEvent()
 
 private class EventSerializer {
@@ -51,11 +57,11 @@ private class EventSerializer {
             .build()
             .adapter(Employee::class.java)
 
-    fun deserialize(event: Event): DeserializedEvent =
-            if (event.type!! == EventType.EmployeeCreated.type)
-                EmployeeCreated(employeeCodec.fromJson(event.body!!)!!)
-            else
-                EmployeeDeleted(event.body!!)
+    fun deserialize(event: Event): DeserializedEvent = when (event.type) {
+        EventType.EmployeeCreated.type -> EmployeeCreated(employeeCodec.fromJson(event.body!!)!!)
+        EventType.EmployeeUpdated.type -> EmployeeUpdated(employeeCodec.fromJson(event.body!!)!!)
+        else -> EmployeeDeleted(event.body!!)
+    }
 
     fun employeeCreated(employee: Employee): Event = Event(
             type = EventType.EmployeeCreated.type,
@@ -66,6 +72,11 @@ private class EventSerializer {
             type = EventType.EmployeeDeleted.type,
             body = id
     )
+
+    fun employeeUpdated(employee: Employee): Event = Event(
+            type = EventType.EmployeeUpdated.type,
+            body = employeeCodec.toJson(employee)
+    )
 }
 
 @Repository
@@ -74,6 +85,7 @@ interface EventDAO : CrudRepository<Event, Int>
 enum class EventType(val type: String) {
     EmployeeCreated("employee created"),
     EmployeeDeleted("employee deleted"),
+    EmployeeUpdated("employee updated"),
 }
 
 @Entity
@@ -81,7 +93,7 @@ data class Event(
         @Id
         @GenericGenerator(name = "uuid", strategy = "uuid2")
         @GeneratedValue(generator = "uuid")
-        @Type(type="pg-uuid")
+        @Type(type = "pg-uuid")
         val id: UUID? = null,
         val type: String? = null,
         val body: String? = null
