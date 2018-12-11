@@ -10,6 +10,7 @@ import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.Lob
 
 @Repository
 class Repository(private val eventDAO: EventDAO) {
@@ -96,5 +97,6 @@ data class Event(
         @Type(type = "pg-uuid")
         val id: UUID? = null,
         val type: String? = null,
+        @Lob
         val body: String? = null
 )
